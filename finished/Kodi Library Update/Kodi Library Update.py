@@ -6,7 +6,7 @@ import os
 import json
 import urllib2
 
-script, title, year, imdbid, resolution, rated, original_file, new_file_location, downloadid, finished_date, conf_json = sys.argv
+script, title, year, imdbid, resolution, rated, original_file, new_file_location, downloadid, finished_date, quality, conf_json = sys.argv
 
 scan_dir = os.path.splitpath('new_file_location')[0]
 

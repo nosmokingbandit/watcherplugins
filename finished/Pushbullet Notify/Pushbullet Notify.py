@@ -8,7 +8,7 @@ from time import strftime
 
 title = sys.argv[1]
 new_file = sys.argv[6]
-conf_json = sys.argv[9]
+conf_json = sys.argv[10]
 
 conf = json.loads(conf_json)
 apikey = conf['Api Key']
