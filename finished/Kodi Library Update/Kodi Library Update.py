@@ -4,7 +4,7 @@
 import sys
 import os
 import json
-import urllib2
+import urllib.request
 
 script, title, year, imdbid, resolution, rated, original_file, new_file_location, downloadid, finished_date, quality, conf_json = sys.argv
 
@@ -30,17 +30,17 @@ post_data = json.dumps({'jsonrpc': '2.0',
 
 headers = {'User-Agent': 'Watcher'}
 
-request = urllib2.Request(url, post_data, headers=headers)
+request = urllib.request.Request(url, post_data, headers=headers)
 
 try:
-    response = json.loads(urllib2.urlopen(request))
+    response = json.loads(urllib.request.urlopen(request))
     if response['result'] == 'OK':
-        print 'KODI Response: "OK"'
+        print('KODI Response: "OK"')
         sys.exit(0)
     else:
-        print 'KODI Response: {}'.format(response['result'])
-except Exception, e:
-    print str(e)
+        print('KODI Response: {}'.format(response['result']))
+except Exception as e:
+    print(str(e))
     sys.exit(1)
 
 sys.exit(0)

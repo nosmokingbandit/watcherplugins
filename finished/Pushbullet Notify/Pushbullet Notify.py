@@ -1,9 +1,11 @@
+# /usr/bin/python3
 # Watcher Plugin to send Pushbullet Notifications
 # Trigger: Post-processing Finished
 
 import sys
 import json
-import urllib2
+import urllib.parse
+import urllib.request
 from time import strftime
 
 title = sys.argv[1]
@@ -18,7 +20,7 @@ headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apik
 
 body = {'type': 'link',
         'title': 'Watcher Finished Processing {}'.format(title),
-        'body': '{} finished processing on: <br/> {}'.format(title, strftime("%a, %b %d, at %I:%M%p"), new_file_location),
+        'body': '{} finished processing on: <br/> {}'.format(title, strftime("%a, %b %d, at %I:%M%p"), new_file),
         }
 
 if conf.get('Send to Device Identifier'):
@@ -27,14 +29,14 @@ if conf.get('Send to Device Identifier'):
 if conf['Send Using Channel']:
     body['channel_tag'] = conf['Send Using Channel']
 
-body = json.dumps(body)
+body = json.dumps(body).encode('utf-8')
 
-request = urllib2.Request(pushbullet_api, body, headers)
+request = urllib.request.Request(pushbullet_api, body, headers)
 
 try:
-    response = urllib2.urlopen(request)
-except Exception, e:
-    print str(e)
+    response = urllib.request.urlopen(request)
+except Exception as e:
+    print(str(e))
     sys.exit(1)
 
 sys.exit(0)

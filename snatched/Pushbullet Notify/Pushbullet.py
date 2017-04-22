@@ -1,9 +1,11 @@
+# /usr/bin/python3
 # Watcher Plugin to send Pushbullet Notifications
 # Trigger: Snatched Release
 
 import sys
 import json
-import urllib2
+import urllib.parse
+import urllib.request
 from time import strftime
 
 script, title, year, imdbid, resolution, kind, downloader, downloadid, indexer, info_link, conf_json = sys.argv
@@ -17,7 +19,7 @@ headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apik
 body = {'type': 'link',
         'title': 'Watcher Snatched {}'.format(title),
         'body': '{} sent to {} on {}.'.format(title, downloader, strftime("%a, %b %d, at %I:%M%p")),
-        'url': urllib2.unquote(info_link)
+        'url': urllib.parse.unquote(info_link)
         }
 
 if conf.get('Send to Device Identifier'):
@@ -26,14 +28,14 @@ if conf.get('Send to Device Identifier'):
 if conf['Send Using Channel']:
     body['channel_tag'] = conf['Send Using Channel']
 
-body = json.dumps(body)
+body = json.dumps(body).encode('utf-8')
 
-request = urllib2.Request(pushbullet_api, body, headers)
+request = urllib.request.Request(pushbullet_api, body, headers)
 
 try:
-    response = urllib2.urlopen(request)
-except Exception, e:
-    print str(e)
+    response = urllib.request.urlopen(request)
+except Exception as e:
+    print(str(e))
     sys.exit(1)
 
 sys.exit(0)
