@@ -1,3 +1,4 @@
+#!/usr/bin/env/python3
 # Watcher Plugin to instruct Kodi to update library
 # Trigger: Post-processing Finished
 
@@ -7,8 +8,7 @@ import json
 import urllib.request
 
 script, title, year, imdbid, resolution, rated, original_file, new_file_location, downloadid, finished_date, quality, conf_json = sys.argv
-
-scan_dir = os.path.splitpath('new_file_location')[0]
+scan_dir = os.path.split(new_file_location)[0]
 
 conf = json.loads(conf_json)
 user = conf['User Name']
