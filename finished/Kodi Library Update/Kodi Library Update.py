@@ -8,13 +8,12 @@ import json
 import urllib.request
 
 script, title, year, imdbid, resolution, rated, original_file, new_file_location, downloadid, finished_date, quality, conf_json = sys.argv
-scan_dir = os.path.split(new_file_location)[0]
 
 conf = json.loads(conf_json)
-user = conf['User Name']
-password = conf['Password']
-kodi_address = conf['IP Address']
-kodi_port = conf['Port']
+user = conf['username']
+password = conf['password']
+kodi_address = conf['address']
+kodi_port = conf['port']
 
 
 if user:
@@ -24,8 +23,7 @@ else:
 
 post_data = json.dumps({'jsonrpc': '2.0',
                         'id': 0,
-                        'method': 'VideoLibrary.Scan',
-                        'params': {'directory': scan_dir}
+                        'method': 'VideoLibrary.Scan'
                         })
 
 headers = {'User-Agent': 'Watcher'}

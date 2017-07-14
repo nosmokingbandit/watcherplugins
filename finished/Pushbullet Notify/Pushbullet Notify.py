@@ -13,7 +13,7 @@ new_file = sys.argv[6]
 conf_json = sys.argv[10]
 
 conf = json.loads(conf_json)
-apikey = conf['Api Key']
+apikey = conf['apikey']
 
 pushbullet_api = 'https://api.pushbullet.com/v2/pushes'
 headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apikey}
@@ -26,8 +26,8 @@ body = {'type': 'link',
 if conf.get('Send to Device Identifier'):
     body['device_iden'] = conf['Send to Device Identifier']
 
-if conf['Send Using Channel']:
-    body['channel_tag'] = conf['Send Using Channel']
+if conf['channel']:
+    body['channel_tag'] = conf['channel']
 
 body = json.dumps(body).encode('utf-8')
 

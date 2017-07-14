@@ -11,7 +11,7 @@ from time import strftime
 script, title, year, imdbid, resolution, kind, downloader, downloadid, indexer, info_link, conf_json = sys.argv
 
 conf = json.loads(conf_json)
-apikey = conf['Api Key']
+apikey = conf['apikey']
 
 pushbullet_api = 'https://api.pushbullet.com/v2/pushes'
 headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apikey}
@@ -26,7 +26,7 @@ if conf.get('Send to Device Identifier'):
     body['device_iden'] = conf['Send to Device Identifier']
 
 if conf['Send Using Channel']:
-    body['channel_tag'] = conf['Send Using Channel']
+    body['channel_tag'] = conf['channel']
 
 body = json.dumps(body).encode('utf-8')
 
