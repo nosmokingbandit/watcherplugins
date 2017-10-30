@@ -1,11 +1,10 @@
 # /usr/bin/python3
-# Watcher Plugin to send Pushbullet Notifications
+# Watcher Plugin to send Pushover Notifications
 # Trigger: Snatched Release
 
 import sys
 import json
-import urllib.parse
-import urllib.request
+import http.client, urllib
 from time import strftime
 
 script, title, year, imdbid, resolution, kind, downloader, downloadid, indexer, info_link, conf_json = sys.argv
@@ -13,11 +12,9 @@ script, title, year, imdbid, resolution, kind, downloader, downloadid, indexer, 
 conf = json.loads(conf_json)
 
 apikey = conf['apikey']
+userkey = conf['userkey']
 
-pushbullet_api = 'https://api.pushbullet.com/v2/pushes'
-headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apikey}
-
-body = {'type': 'link',
+body = {
         'title': 'Watcher Snatched {}'.format(title),
         'body': '{} sent to {} on {}.'.format(title, downloader, strftime("%a, %b %d, at %I:%M%p")),
         'url': urllib.parse.unquote(info_link)
@@ -26,14 +23,15 @@ body = {'type': 'link',
 if conf['channel'] != '':
     body['channel_tag'] = conf['channel']
 
-body = json.dumps(body).encode('utf-8')
+conn = http.client.HTTPSConnection("api.pushover.net:443")
 
-request = urllib.request.Request(pushbullet_api, body, headers)
+conn.request("POST", "/1/messages.json",
+  urllib.parse.urlencode({
+    "token": apikey,
+    "user": userkey,
+    "message": body,
+  }), { "Content-type": "application/x-www-form-urlencoded" })
 
-try:
-    response = urllib.request.urlopen(request)
-except Exception as e:
-    print(str(e))
-    sys.exit(1)
+conn.getresponse()
 
 sys.exit(0)
