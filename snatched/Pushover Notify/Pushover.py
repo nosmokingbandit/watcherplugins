@@ -14,11 +14,7 @@ conf = json.loads(conf_json)
 apikey = conf['apikey']
 userkey = conf['userkey']
 
-body = {
-        'title': 'Watcher Snatched {}'.format(title),
-        'body': '{} sent to {} on {}.'.format(title, downloader, strftime("%a, %b %d, at %I:%M%p")),
-        'url': urllib.parse.unquote(info_link)
-        }
+body = 'Watcher Snatched {} - sent to {} on {}.'.format(title, downloader, strftime("%a, %b %d, at %I:%M%p"))
 
 if conf['channel'] != '':
     body['channel_tag'] = conf['channel']
