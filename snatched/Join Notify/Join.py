@@ -19,13 +19,15 @@ apikey = conf['apikey']
 deviceid = conf['deviceid']
 
 icon = conf['icon']
-#icon = 'https://raw.githubusercontent.com/nosmokingbandit/Watcher3/master/static/images/favicon.png'
 
 join_api = 'https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?'
 
 message = 'Watcher Snatched {} - sent to {} on {}.'.format(title, downloader, strftime("%a, %b %d, at %I:%M%p"))
 
-url = (join_api) + 'icon=' + urllib.parse.quote(icon) + '&' + 'text=' + urllib.parse.quote(message) + '&' + 'deviceId='+ (deviceid) + '&' + 'apikey=' + (apikey)
+post_data = {'text': message, 'deviceId': deviceid, 'apikey': apikey, 'icon': icon}
 
+requests.get(join_api, params=post_data)
+
+url = (join_api) + 'icon=' + urllib.parse.quote(icon) + '&text=' + urllib.parse.quote(message) + '&deviceId='+ (deviceid) + '&apikey=' + (apikey)
 urllib.request.urlopen(url)
 
